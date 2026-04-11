@@ -1,0 +1,21 @@
+<div style="width: 300px; margin: 50px auto; border: 1px solid #ccc; padding: 20px; border-radius: 8px;">
+  <h2 style="text-align:center;">User Login</h2>
+  <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <div style="margin-bottom: 10px;">
+      <label>Username</label>
+      <input formControlName="username" placeholder="Enter username" style="width:100%; padding:5px;">
+      <div *ngIf="loginForm.controls['username'].invalid && loginForm.controls['username'].touched" style="color:red; font-size:12px;">
+        Username is required
+      </div>
+    </div>
+    <div style="margin-bottom: 10px;">
+      <label>Password</label>
+      <input type="password" formControlName="password" placeholder="Enter password" style="width:100%; padding:5px;">
+      <div *ngIf="loginForm.controls['password'].invalid && loginForm.controls['password'].touched" style="color:red; font-size:12px;">
+        Password is required
+      </div>
+    </div>
+    <button type="submit" style="width:100%; padding:5px;">Login</button>
+  </form>
+  <p style="color:green; text-align:center;">{{ message }}</p>
+</div>

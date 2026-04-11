@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Data.SqlClient;
+using Npgsql; // ✅ change
 using USERLOGIN_DEMO.Model;
 
 namespace USERLOGIN_DEMO.Controllers
@@ -9,21 +9,23 @@ namespace USERLOGIN_DEMO.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        private readonly string connectionString = "Server=Y3_MAX\\SQLEXPRESS;Database=userlogin;Trusted_Connection=True;TrustServerCertificate=True;";
-
+        // ✅ Supabase connection string
+        private readonly string connectionString =
+          "Host=db.eyaoebwnpupwpeucamki.supabase.co;Port=5432;Database=postgres;Username=postgres;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
 
         [HttpPost]
         public IActionResult Login([FromBody] LoginRequest request)
         {
-            using SqlConnection conn = new SqlConnection(connectionString);
+            using NpgsqlConnection conn = new NpgsqlConnection(connectionString);
             conn.Open();
 
-            string query = "SELECT * FROM Users WHERE Username = @username AND Password = @password";
-            SqlCommand cmd = new SqlCommand(query, conn);
+            string query = "SELECT * FROM users WHERE username = @username AND password = @password";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@username", request.Username);
             cmd.Parameters.AddWithValue("@password", request.Password);
 
-            SqlDataReader reader = cmd.ExecuteReader();
+            NpgsqlDataReader reader = cmd.ExecuteReader();
 
             if (reader.HasRows)
             {
