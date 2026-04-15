@@ -1,62 +1,32 @@
-//var builder = WebApplication.CreateBuilder(args);
+﻿var builder = WebApplication.CreateBuilder(args);
 
-//// Add services to the container.
-
-//builder.Services.AddControllers();
-//// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-//builder.Services.AddEndpointsApiExplorer();
-//builder.Services.AddSwaggerGen();
-
-//var app = builder.Build();
-
-//// Configure the HTTP request pipeline.
-//if (app.Environment.IsDevelopment())
-//{
-//    app.UseSwagger();
-//    app.UseSwaggerUI();
-//}
-
-//app.UseHttpsRedirection();
-
-//app.UseAuthorization();
-
-//app.MapControllers();
-
-//app.Run();
-
-
-
-var builder = WebApplication.CreateBuilder(args);
-
-// 1?? Add CORS service
+// CORS
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowAngularApp",
         policy =>
         {
-            policy.WithOrigins("http://localhost:4200") // Angular dev server
+            policy.WithOrigins("http://localhost:4200")
                   .AllowAnyHeader()
                   .AllowAnyMethod();
         });
 });
 
-// Add controllers & Swagger
+// Services
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// Swagger
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+// ✅ Enable Swagger always
+app.UseSwagger();
+app.UseSwaggerUI();
 
-app.UseHttpsRedirection();
+// ❌ Remove HTTPS redirection (Render ku venam)
+// app.UseHttpsRedirection();
 
-// 2?? Use CORS before Authorization
+// CORS
 app.UseCors("AllowAngularApp");
 
 app.UseAuthorization();
