@@ -10,7 +10,8 @@ namespace USERLOGIN_DEMO.Controllers
     public class LoginController : ControllerBase
     {
         // ✅ Supabase connection string
-        private readonly string connectionString ="Host=aws-0-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
+        private readonly string connectionString =
+              "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
         [HttpPost]
         public IActionResult Login([FromBody] LoginRequest request)
         {
