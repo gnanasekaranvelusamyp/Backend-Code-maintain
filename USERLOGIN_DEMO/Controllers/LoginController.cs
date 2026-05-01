@@ -18,7 +18,7 @@ namespace USERLOGIN_DEMO.Controllers
             using NpgsqlConnection conn = new NpgsqlConnection(connectionString);
             conn.Open();
 
-            string query = "SELECT * FROM users WHERE username = @username AND password = @password";
+            string query = "SELECT * FROM users WHERE LOWER(username) = LOWER(@username) AND password = @password";
 
             NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
             cmd.Parameters.AddWithValue("@username", request.Username);
