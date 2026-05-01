@@ -9,7 +9,7 @@ namespace USERLOGIN_DEMO.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly string connectionString =
-             "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
+              "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
 
         [HttpPost]
         public IActionResult AddCustomer([FromBody] Customer customer)
@@ -18,17 +18,15 @@ namespace USERLOGIN_DEMO.Controllers
             conn.Open();
 
             string query = @"INSERT INTO customers
-            (customer_name, contact_person, mobile_no, email, gst_no, address, city, state, pincode)
+            (customer_name, mobile_no, email, address, city, state, pincode)
             VALUES
-            (@customer_name, @contact_person, @mobile_no, @email, @gst_no, @address, @city, @state, @pincode)";
+            (@customer_name,@mobile_no, @email,@address, @city, @state, @pincode)";
 
             using NpgsqlCommand cmd = new NpgsqlCommand(query, conn);
 
             cmd.Parameters.AddWithValue("@customer_name", customer.customer_name);
-            cmd.Parameters.AddWithValue("@contact_person", (object?)customer.contact_person ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@mobile_no", (object?)customer.mobile_no ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@email", (object?)customer.email ?? DBNull.Value);
-            cmd.Parameters.AddWithValue("@gst_no", (object?)customer.gst_no ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@address", (object?)customer.address ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@city", (object?)customer.city ?? DBNull.Value);
             cmd.Parameters.AddWithValue("@state", (object?)customer.state ?? DBNull.Value);
