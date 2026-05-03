@@ -9,7 +9,7 @@ namespace USERLOGIN_DEMO.Controllers
     public class CustomerController : ControllerBase
     {
         private readonly string connectionString =
-              "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
+           "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;Pooling=false;Timeout=300;Command Timeout=300;";
 
         [HttpPost]
         public IActionResult AddCustomer([FromBody] Customer customer)
