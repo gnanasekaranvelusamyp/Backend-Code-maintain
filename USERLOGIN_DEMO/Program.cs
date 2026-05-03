@@ -19,21 +19,15 @@ builder.Services.AddSwaggerGen();
 
 var app = builder.Build();
 
-// ✅ Enable Swagger always
+// CORS FIRST
+app.UseCors("AllowAngularApp");
+
+// Swagger
 app.UseSwagger();
 app.UseSwaggerUI();
-
-// ❌ Remove HTTPS redirection (Render ku venam)
-// app.UseHttpsRedirection();
-
-// CORS
-app.UseCors("AllowAngularApp");
 
 app.UseAuthorization();
 
 app.MapControllers();
 
 app.Run();
-
-
-
