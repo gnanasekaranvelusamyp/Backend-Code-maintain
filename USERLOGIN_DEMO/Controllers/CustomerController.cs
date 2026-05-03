@@ -34,7 +34,10 @@ namespace USERLOGIN_DEMO.Controllers
 
             cmd.ExecuteNonQuery();
 
-            return Ok(new { message = "Customer Added Successfully" });
+            return Ok(new
+            {
+                message = "Saved Successfully"
+            });
         }
     }
 }
