@@ -10,12 +10,19 @@ namespace USERLOGIN_DEMO.Controllers
     [ApiController]
     public class ProductController : ControllerBase
     {
-        private readonly string connectionString =
-              "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
+        private readonly IConfiguration _configuration;
+
+        public ProductController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         [HttpPost]
         public IActionResult SaveProduct(ProductMaster product)
         {
+            string connectionString =
+             _configuration.GetConnectionString("DefaultConnection");
+
             using NpgsqlConnection con =
                 new NpgsqlConnection(connectionString);
 

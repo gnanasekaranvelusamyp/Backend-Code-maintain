@@ -9,12 +9,18 @@ namespace USERLOGIN_DEMO.Controllers
     [ApiController]
     public class LoginController : ControllerBase
     {
-        // ✅ Supabase connection string
-        private readonly string connectionString =
-              "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;";
+        private readonly IConfiguration _configuration;
+
+        public LoginController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
         [HttpPost]
         public IActionResult Login([FromBody] LoginRequest request)
         {
+            string connectionString =
+             _configuration.GetConnectionString("DefaultConnection");
+
             using NpgsqlConnection conn = new NpgsqlConnection(connectionString);
             conn.Open();
 

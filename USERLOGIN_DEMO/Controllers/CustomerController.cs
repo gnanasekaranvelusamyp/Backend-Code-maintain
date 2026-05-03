@@ -8,12 +8,19 @@ namespace USERLOGIN_DEMO.Controllers
     [ApiController]
     public class CustomerController : ControllerBase
     {
-        private readonly string connectionString =
-           "Host=aws-1-ap-south-1.pooler.supabase.com;Port=6543;Database=postgres;Username=postgres.eyaoebwnpupwpeucamki;Password=Sekar@1996##;SSL Mode=Require;Trust Server Certificate=true;Pooling=false;Timeout=300;Command Timeout=300;";
+        private readonly IConfiguration _configuration;
+
+        public CustomerController(IConfiguration configuration)
+        {
+            _configuration = configuration;
+        }
 
         [HttpPost]
         public IActionResult AddCustomer([FromBody] Customer customer)
         {
+            string connectionString =
+             _configuration.GetConnectionString("DefaultConnection");
+
             using NpgsqlConnection conn = new NpgsqlConnection(connectionString);
             conn.Open();
 
