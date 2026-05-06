@@ -48,5 +48,52 @@ namespace USERLOGIN_DEMO.Controllers
                 message = "Saved Successfully"
             });
         }
+
+
+        [HttpGet("GetProduct")]
+
+        public IActionResult Getproduct()
+        {
+
+            string connectionString =
+            _configuration.GetConnectionString("DefaultConnection");
+
+
+            List<object> list = new List<object>();
+
+
+            using NpgsqlConnection con =
+            new NpgsqlConnection(connectionString);
+
+
+            con.Open();
+
+
+            string query = "select * from productmaster";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(query, con);
+
+            NpgsqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new ProductMaster()
+                {
+                    product_id = Convert.ToInt64(dr["product_id"]),
+                    Part_No = dr["partno"].ToString(),
+                    Part_Name = dr["partname"].ToString(),
+                    UOM = dr["uom"].ToString(),
+                    Hsn_Code = dr["hsncode"].ToString()
+                   
+                });
+            }
+
+
+            con.Close();
+
+
+            return Ok(list);
+
+        }
     }
 }

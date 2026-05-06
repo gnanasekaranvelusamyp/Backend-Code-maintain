@@ -2,6 +2,7 @@
 {
     public class ProductMaster
     {
+        public long product_id { get; set; }
         public string Part_No { get; set; }
 
         public string Part_Name { get; set; }

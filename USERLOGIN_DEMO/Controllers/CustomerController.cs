@@ -1,4 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Data;
+using Microsoft.AspNetCore.Mvc;
+using Microsoft.Data.SqlClient;
 using Npgsql;
 using USERLOGIN_DEMO.Model;
 
@@ -45,6 +47,55 @@ namespace USERLOGIN_DEMO.Controllers
             {
                 message = "Saved Successfully"
             });
+        }
+
+        [HttpGet("GetCustomer")]
+
+        public IActionResult GetCustomer()
+        {
+
+            string connectionString =
+            _configuration.GetConnectionString("DefaultConnection");
+
+
+            List<object> list = new List<object>();
+
+
+            using NpgsqlConnection con =
+            new NpgsqlConnection(connectionString);
+
+
+            con.Open();
+
+
+            string query = "select * from customers";
+
+            NpgsqlCommand cmd = new NpgsqlCommand(query, con);
+
+            NpgsqlDataReader dr = cmd.ExecuteReader();
+
+            while (dr.Read())
+            {
+                list.Add(new Customer()
+                {
+                    customer_id = Convert.ToInt64(dr["customer_id"]),
+                    customer_name = dr["customer_name"].ToString(),
+
+                    mobile_no = dr["mobile_no"].ToString(),
+                    email = dr["email"].ToString(),
+                    address = dr["address"].ToString(),
+                    city = dr["city"].ToString(),
+                    state = dr["state"].ToString(),
+                    pincode = dr["pincode"].ToString()
+                });
+            }
+
+
+            con.Close();
+
+
+            return Ok(list);
+
         }
     }
 }
