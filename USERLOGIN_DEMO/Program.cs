@@ -1,4 +1,9 @@
-﻿var builder = WebApplication.CreateBuilder(args);
+﻿Environment.SetEnvironmentVariable(
+    "DOTNET_USE_POLLING_FILE_WATCHER",
+    "true"
+);
+
+var builder = WebApplication.CreateBuilder(args);
 
 // CORS
 builder.Services.AddCors(options =>
@@ -22,9 +27,12 @@ var app = builder.Build();
 // CORS FIRST
 app.UseCors("AllowAngularApp");
 
-// Swagger
-app.UseSwagger();
-app.UseSwaggerUI();
+// Swagger only in development
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
 
 app.UseAuthorization();
 
